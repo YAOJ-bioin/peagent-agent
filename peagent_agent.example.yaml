@@ -1,0 +1,19 @@
+# Copy to peagent_agent.yaml and fill in real paths (Sapelo2 example).
+# Model weights/metadata are found by peagent_tool via $PEAGENT_ASSET_ROOT, not here.
+
+run_dir: /scratch/jy16611/peagent-agent/runs
+# motif_db: optional; defaults to the bundled JASPAR 2026 CORE plants non-redundant set
+
+species:
+  maize:
+    assembly: Zm-B73-REFERENCE-NAM-5.0
+    genome: /scratch/jy16611/genomes/maize/Zm-B73-REFERENCE-NAM-5.0.fa.gz     # bgzipped + .fai + .gzi
+    gff: /scratch/jy16611/genomes/maize/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1.gff3.gz
+  rice:
+    assembly: Nipponbare MSU7 (osa1 r7)
+    genome: /scratch/jy16611/genomes/rice/MSU7_all.fa.gz
+    gff: /scratch/jy16611/genomes/rice/MSU7_all.gff3.gz
+  soybean:
+    assembly: Wm82.a4.v1
+    genome: /scratch/jy16611/genomes/soybean/Gmax_508_v4.0.fa.gz
+    gff: /scratch/jy16611/genomes/soybean/Gmax_508_Wm82.a4.v1.gene.gff3.gz

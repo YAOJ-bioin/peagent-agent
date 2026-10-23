@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v uv >/dev/null 2>&1 || { echo 'PEAgent: uv is not installed; see https://docs.astral.sh/uv/ (the peagent MCP server cannot start without it).'; exit 0; }; [ -x \"${CLAUDE_PLUGIN_ROOT}/.venv/bin/python\" ] && exit 0; echo 'PEAgent: first run, installing the Python environment (1-5 min, once)...'; uv sync --quiet --python 3.11 --directory \"${CLAUDE_PLUGIN_ROOT}\" >/dev/null 2>&1 && echo 'PEAgent environment ready.' || echo 'PEAgent: environment install failed; run: uv sync --directory <plugin dir>'",
+            "timeout": 900
+          }
+        ]
+      }
+    ]
+  }
+}

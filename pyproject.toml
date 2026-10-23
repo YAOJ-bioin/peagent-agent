@@ -1,0 +1,47 @@
+[project]
+name = "peagent-agent"
+version = "0.1.0"
+description = "PEAgent: plant sequence-to-single-cell chromatin accessibility models as a Python library, CLI and AI agent (MCP server + skills)"
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+license = {text = "MIT"}
+authors = [{name = "Jie Yao", email = "JieYao@uga.edu"}]
+dependencies = [
+  # peagent_tool (the inference library, formerly github.com/YAOJ-bioin/peagent_tool) ships in this
+  # repo. TF 2.15 (Keras 2) instead of 2.13: 2.13 pins typing-extensions<4.6, which pydantic 2 /
+  # fastmcp cannot use; outputs are bit-identical (checked on all three species).
+  "tensorflow-cpu>=2.15,<2.16",
+  "matplotlib",
+  "logomaker",
+  "scipy",
+  "huggingface_hub",
+  "fastmcp>=4.1,<5",
+  "pydantic>=2",
+  "pyyaml",
+  "numpy",
+  "pandas",
+  "pysam",
+]
+
+[project.optional-dependencies]
+agent = ["claude-agent-sdk>=0.2.170"]
+eval = ["claude-agent-sdk>=0.2.170", "inspect-ai>=0.3.280"]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+peagent-mcp = "peagent_mcp.server:main"
+peagent-tool = "peagent_tool.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["peagent_mcp", "peagent_tool", "peagent_tool._vendor"]
+
+[tool.setuptools.package-data]
+peagent_mcp = ["data/*.jaspar"]
+
+
+[tool.ruff]
+line-length = 140

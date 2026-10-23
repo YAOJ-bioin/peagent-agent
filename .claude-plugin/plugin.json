@@ -1,0 +1,10 @@
+{
+  "name": "peagent",
+  "version": "0.1.0",
+  "description": "PEAgent as an AI agent: cell-type-resolved chromatin-accessibility prediction, attribution, variant effects and motif synergy for maize, rice and soybean, with evidence-tiered reporting.",
+  "author": {"name": "Jie Yao", "email": "JieYao@uga.edu"},
+  "homepage": "https://peagent.org",
+  "repository": "https://github.com/YAOJ-bioin/peagent-agent",
+  "license": "MIT",
+  "keywords": ["plant genomics", "single-cell ATAC", "chromatin accessibility", "regulatory genomics", "MCP"]
+}

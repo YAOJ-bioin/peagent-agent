@@ -1,0 +1,15 @@
+{
+  "name": "peagent",
+  "description": "PEAgent: sequence-to-single-cell chromatin accessibility agent for plant genomes (maize, rice, soybean).",
+  "owner": {
+    "name": "Jie Yao",
+    "email": "JieYao@uga.edu"
+  },
+  "plugins": [
+    {
+      "name": "peagent",
+      "source": "./",
+      "description": "PEAgent plant single-cell regulatory-genomics agent (MCP tools + skills + verifier)."
+    }
+  ]
+}

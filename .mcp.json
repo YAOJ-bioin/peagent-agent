@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "peagent": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "--quiet", "--python", "3.11", "--directory", "${CLAUDE_PLUGIN_ROOT}", "peagent-mcp"],
+      "env": {
+        "PEAGENT_AGENT_CONFIG": "${PEAGENT_AGENT_CONFIG:-}",
+        "PEAGENT_ASSET_ROOT": "${PEAGENT_ASSET_ROOT:-}",
+        "PEAGENT_HF_REPO": "${PEAGENT_HF_REPO:-YAOJ-bioin/peagent}",
+        "HF_TOKEN": "${HF_TOKEN:-}",
+        "PEAGENT_RUN_DIR": "${PEAGENT_RUN_DIR:-}",
+        "TF_CPP_MIN_LOG_LEVEL": "2"
+      }
+    }
+  }
+}

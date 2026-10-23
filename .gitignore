@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+uv.lock.bak
+peagent_agent.yaml
+runs/
+eval/results/
+*.egg-info/
