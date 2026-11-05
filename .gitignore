@@ -6,3 +6,4 @@ peagent_agent.yaml
 runs/
 eval/results/
 *.egg-info/
+demo_output/

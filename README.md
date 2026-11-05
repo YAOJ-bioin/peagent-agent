@@ -20,9 +20,77 @@ This repository is the single entry point. It contains:
 | Rice (*Oryza sativa*) | Nipponbare MSU7 | 104,029 | 128 |
 | Soybean (*Glycine max*) | Wm82.a4.v1 | 200,732 | 98 |
 
+## System requirements
+
+| | Tested on | Notes |
+|---|---|---|
+| Operating system | Rocky Linux 9.5, x86_64 | Other x86_64 systems with a `tensorflow-cpu` 2.15 wheel (Linux, Windows, Intel macOS) should work but were not tested. Apple-silicon Macs and ARM Linux are not supported: there is no `tensorflow-cpu` 2.15 wheel for them. |
+| Python | 3.11.17 | 3.10 or 3.11 |
+| Python packages | exact versions pinned in [`uv.lock`](uv.lock) | tensorflow-cpu 2.15.1, keras 2.15.0, numpy 1.26.4, pandas 2.3.3, scipy 1.15.3, pysam 0.24.1, huggingface-hub 2.3.0, matplotlib 3.10.9, logomaker 0.8.7, fastmcp 4.1.3 |
+| Installer | uv 0.13.5 | |
+| Agent (optional) | Claude Code 2.1.275+ | any MCP client can use the tools |
+| Hardware | 4 CPU cores, 16 GB RAM | No GPU or other non-standard hardware. The demo peaks at 1.9 GB RAM. About 4 GB disk for the environment, plus 28-62 MB per species model. |
+
+## Installation
+
+```bash
+git clone https://github.com/YAOJ-bioin/peagent-agent
+cd peagent-agent
+uv sync                     # creates .venv with the locked versions
+```
+
+Typical install time: 1-3 minutes (29-108 s measured with an empty uv cache, including the download
+of Python 3.11 and all packages).
+
+Model weights are pre-publication and gated. Request access at
+[huggingface.co/YAOJ-bioin/peagent](https://huggingface.co/YAOJ-bioin/peagent) (reviewers are given
+access on request), then `export HF_TOKEN=hf_xxx`. Each species is downloaded on first use to
+`~/.cache/peagent` (maize 28 MB, rice 40 MB, soybean 62 MB).
+
+## Demo
+
+Demo data, in [`examples/demo/`](examples/demo/): the 1,344-bp maize window centred on caQTL SNV
+chr8:176,677,455 T>C, as REF and ALT FASTA (the variant of Fig. 5F and [example 1](examples/case1_maize_caQTL_variant/)).
+
+```bash
+uv run python tests/smoke_test.py     # install check, no weights needed; ends with "SMOKE TEST PASSED"
+mkdir -p demo_output
+uv run peagent-tool predict-celltypes --species maize --fasta examples/demo/maize_snv_ref.fa \
+    --top-k 5 --out demo_output/ref_top5_celltypes.tsv
+uv run peagent-tool score-ref-alt --species maize --ref-fasta examples/demo/maize_snv_ref.fa \
+    --alt-fasta examples/demo/maize_snv_alt.fa --out demo_output/ref_alt_effects.tsv
+uv run peagent-tool attribution --species maize --fasta examples/demo/maize_snv_alt.fa \
+    --target root_protophloem --normalize tissue --out-prefix demo_output/alt_root_protophloem_attribution
+```
+
+Expected output (reference copies in [`examples/demo/expected_output/`](examples/demo/expected_output/)):
+
+| File | Content |
+|---|---|
+| `ref_top5_celltypes.tsv` | The 5 cell types where REF is most accessible; first is root protophloem, p = 0.134 |
+| `ref_alt_effects.tsv` | One row per cell-type group (94). ALT is higher than REF in all 94; root protophloem 0.134 to 0.436 (Δlogit +1.73) |
+| `alt_root_protophloem_attribution.pdf/.png` | Per-base contribution map of ALT in root protophloem; the highest peak is at the SNV (position 673) |
+
+Run time: about 1 minute on 4 CPU cores (45-52 s measured: prediction 6 s, REF/ALT 5 s, attribution 34-39 s),
+plus the one-time 28 MB maize download. The smoke test takes about 20 s.
+
+## Instructions for use
+
+- **Your own sequences**: any DNA in FASTA (`--fasta`) or as a string (`--sequence`). Sequences that are not
+  1,344 bp are centre-padded with N or centre-cropped. Coordinates must be on the model assemblies above.
+- **Your own variants**: a TSV with columns `chrom, pos, ref, alt` plus the reference genome FASTA:
+  `peagent-tool score-variants --species maize --variants snvs.tsv --fasta genome.fa.gz`.
+- **Cell types**: `peagent-tool list-celltypes --species <species>` lists the valid `--target` names.
+- Agent, Python and command-line use are described in the sections below.
+- **Reproduction**: [`examples/`](examples/) holds two full agent sessions compared with the paper;
+  `uv run python tests/paper_reproduction_test.py` reproduces Table S4 (soybean endosperm HD-ZIP x TCP synergy;
+  prints 0.129 against the paper's 0.125, about 3 minutes on 4 CPU cores).
+  The analysis code for all figures is at [github.com/YAOJ-bioin/peagent-analysis](https://github.com/YAOJ-bioin/peagent-analysis)
+  (Zenodo [10.5281/zenodo.21495954](https://doi.org/10.5281/zenodo.21495954)).
+
 ## Use it as an agent
 
-Requirements: [Claude Code](https://claude.com/claude-code) 2.1.275+, [uv](https://docs.astral.sh/uv/), ~2 GB disk. CPU is enough.
+Requirements: [Claude Code](https://claude.com/claude-code) 2.1.275+, [uv](https://docs.astral.sh/uv/), ~4 GB disk. CPU is enough.
 
 ```bash
 # 1. Model access. Weights are pre-publication and gated: request access at

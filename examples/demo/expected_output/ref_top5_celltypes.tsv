@@ -1,0 +1,6 @@
+sequence_id	rank	prediction	tissue_celltype	tissue	celltype	n_cells	original_length	normalized_length	normalization_action	species	mode	model_path
+chr8:176676783-176678126	1	0.13429853	root_protophloem	root	protophloem	212	1344	1344	unchanged	maize	exact	/scratch/jy16611/PEAgent_S2E/output/80-ng-software-readme/agent_fresh/peagent_cache/models/maize/model.h5
+chr8:176676783-176678126	2	0.078792095	ear_provascular_inflorescence_strands	ear	provascular_inflorescence_strands	212	1344	1344	unchanged	maize	exact	/scratch/jy16611/PEAgent_S2E/output/80-ng-software-readme/agent_fresh/peagent_cache/models/maize/model.h5
+chr8:176676783-176678126	3	0.026843306	axillaryBud_axillary_provascular_strands	axillaryBud	axillary_provascular_strands	222	1344	1344	unchanged	maize	exact	/scratch/jy16611/PEAgent_S2E/output/80-ng-software-readme/agent_fresh/peagent_cache/models/maize/model.h5
+chr8:176676783-176678126	4	0.023776408	ear_glume_primordia	ear	glume_primordia	189	1344	1344	unchanged	maize	exact	/scratch/jy16611/PEAgent_S2E/output/80-ng-software-readme/agent_fresh/peagent_cache/models/maize/model.h5
+chr8:176676783-176678126	5	0.02114268	axillaryBud_ground_meristem	axillaryBud	ground_meristem	286	1344	1344	unchanged	maize	exact	/scratch/jy16611/PEAgent_S2E/output/80-ng-software-readme/agent_fresh/peagent_cache/models/maize/model.h5
